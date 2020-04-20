@@ -205,6 +205,33 @@ function setup_emacs
 	chmod +rw /home/$USER/.emacs.d/*
 }
 
+function csfml_install
+{
+	if test $fake -eq 1; then
+		echo "Installing CSFML"
+		return
+	fi
+	sudo apt-get install libcsfml-dev libcsfml-doc
+	sudo apt-get install libxrandr-dev
+	sudo apt-get install build-essential cmake git libx11-dev freeglut3-dev libxcb-image0-dev libudev-dev libjpeg8-dev libopenal-dev libsndfile1-dev libfreetype6-dev
+	git clone https://github.com/SFML/SFML
+	sudo apt-get install libsfml-dev
+	sudo apt-get install libsfml-doc
+	git clone https://github.com/SFML/CSFML
+	cd SFML
+	cmake .
+	make
+	sudo make install
+	cd ..
+	cd CSFML
+	SFML="$(realpath ../SFML)"
+	cmake -DCMAKE_MODULE_PATH="$SFML/cmake/Modules" .
+	make
+	sudo make install
+	cd ..
+	sudo apt-get install g++ build-essential libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew-dev libjpeg-dev libsndfile1-dev libopenal-dev
+}
+
 if test $UID -eq 0; then
 	echo ">> Ne pas lancer ce script en tant que sudo <<"
 	usage
@@ -310,6 +337,12 @@ case $yn in
     * ) sys_install htop;;
 esac
 
+script_header "DESIREZ VOUS INSTALLER CSFML ?"
+read -p "Installer htop pour avoir un top plus pratique ? [O/n]" yn
+case $yn in
+    [Nn]* );;
+    * ) csfml_install;;
+esac
 
 script_header "EFFACEMENT DES FICHIERS D'INSTALLATION"
 rm -rvf ../installation
