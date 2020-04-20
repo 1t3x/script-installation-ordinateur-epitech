@@ -338,7 +338,7 @@ case $yn in
 esac
 
 script_header "DESIREZ VOUS INSTALLER CSFML ?"
-read -p "Installer htop pour avoir un top plus pratique ? [O/n]" yn
+read -p "Installer CSFML ? [O/n]" yn
 case $yn in
     [Nn]* );;
     * ) csfml_install;;
