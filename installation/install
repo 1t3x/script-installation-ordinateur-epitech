@@ -207,29 +207,50 @@ function setup_emacs
 
 function csfml_install
 {
-	if test $fake -eq 1; then
-		echo "Installing CSFML"
-		return
-	fi
-	sudo apt-get install libcsfml-dev libcsfml-doc
-	sudo apt-get install libxrandr-dev
-	sudo apt-get install build-essential cmake git libx11-dev freeglut3-dev libxcb-image0-dev libudev-dev libjpeg8-dev libopenal-dev libsndfile1-dev libfreetype6-dev
-	git clone https://github.com/SFML/SFML
-	sudo apt-get install libsfml-dev
-	sudo apt-get install libsfml-doc
-	git clone https://github.com/SFML/CSFML
-	cd SFML
-	cmake .
-	make
-	sudo make install
-	cd ..
-	cd CSFML
-	SFML="$(realpath ../SFML)"
-	cmake -DCMAKE_MODULE_PATH="$SFML/cmake/Modules" .
-	make
-	sudo make install
-	cd ..
-	sudo apt-get install g++ build-essential libpthread-stubs0-dev libgl1-mesa-dev libx11-dev libxrandr-dev libfreetype6-dev libglew-dev libjpeg-dev libsndfile1-dev libopenal-dev
+    if test $fake -eq 1; then
+        echo "Installing CSFML"
+        return
+    fi
+    sys_install libcsfml-dev
+    sys_install libcsfml-doc
+    sys_install libxrandr-dev
+    sys_install build-essential
+    sys_install cmake
+    sys_install git
+    sys_install libx11-dev
+    sys_install freeglut3-dev
+    sys_install libxcb-image0-dev
+    sys_install libudev-dev
+    sys_install libjpeg8-dev
+    sys_install libopenal-dev
+    sys_install libsndfile1-dev
+    sys_install libfreetype6-dev
+    git clone https://github.com/SFML/SFML
+    sys_install libsfml-dev
+    sys_install libsfml-doc
+    git clone https://github.com/SFML/CSFML
+    cd SFML
+    cmake .
+    make
+    sudo make install
+    cd ..
+    cd CSFML
+    SFML="$(realpath ../SFML)"
+    cmake -DCMAKE_MODULE_PATH="$SFML/cmake/Modules" .
+    make
+    sudo make install
+    cd ..
+    sys_install g++
+    sys_install build-essential
+    sys_install libpthread-stubs0-dev
+    sys_install libgl1-mesa-dev
+    sys_install libx11-dev
+    sys_install libxrandr-dev
+    sys_install libfreetype6-dev
+    sys_install libglew-dev
+    sys_install libjpeg-dev
+    sys_install libsndfile1-dev
+    sys_install libopenal-dev
 }
 
 if test $UID -eq 0; then
